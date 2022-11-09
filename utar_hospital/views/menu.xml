@@ -7,9 +7,28 @@
               sequence="0"/>
 
     <menuitem id="menu_patient_master"
-              name="Patient Details"
+              name="Patients"
               parent="menu_hospital_root"
-              sequence="0"/>
+              sequence="1"/>
 
+    <menuitem id="menu_doctor_master"
+              name="Staff"
+              parent="menu_hospital_root"
+              sequence="2"/>
+
+    <menuitem id="menu_care_master"
+              name="Care"
+              parent="menu_hospital_root"
+              sequence="4"/>
+
+    <menuitem id="menu_medical_report_master"
+              name="Medical Reports"
+              parent="menu_hospital_root"
+              sequence="3"/>
+
+    <menuitem id="menu_billing_master"
+              name="Billing"
+              parent="menu_hospital_root"
+              sequence="5"/>
 
 </odoo>

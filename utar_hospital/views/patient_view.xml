@@ -19,17 +19,90 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button type="object" name="schedule_appointment"
+                            string="Schedule Appointment" class="oe_highlight"
+                            icon="fa-plus"/>
+                </header>
                 <sheet>
+                    <!--                    <div class="oe_button_box" name="button_box">-->
+                    <!--                        <button type="object" name="action_view_record"-->
+                    <!--                                class="oe_stat_button"-->
+                    <!--                                icon="fa-book">-->
+                    <!--                            <field name="count_borrow" widget="statinfo"/>-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
+                    <!--                    <div class="alert alert-info text-center o_form_header" role="alert"-->
+                    <!--                         attrs="{'invisible': [('is_birthday', '=', False)]}">-->
+                    <!--                        <a class="close" data-dismiss="alert" href="#">x</a>-->
+                    <!--                        <div>-->
+                    <!--                            <strong>Today is-->
+                    <!--                                <field name="name" readonly="1"/>-->
+                    <!--                                Birthday !-->
+                    <!--                            </strong>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="name" string="Patient Name"/>
+                            <field name="name" required="1"/>
+                            <field name="pat_ic" required="1"/>
+                            <field name="pat_DOB" string="Date of Birth"/>
                             <field name="age"/>
-                            <field name="appointment_id"/>
+
                         </group>
                         <group>
                             <field name="gender"/>
-                            <field name="ref"/>
+                            <field name="pat_mobile" placeholder="XXX-XXXXXXX" readonly="0" widget="phone"/>
+                            <field name="pat_email" widget="email"/>
+                            <!--                            <field name="is_birthday" invisible="1"/>-->
                         </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="pat_address"/>
+                            <field name="pat_address_state"/>
+                        </group>
+                        <group>
+                            <field name="pat_country"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <notebook>
+                            <page string="Extra Information">
+                                <div class="oe_title">
+                                    <h1>Extra Information</h1>
+                                </div>
+                                <group>
+                                    <group>
+                                        <field name="pat_height"/>
+                                    </group>
+                                    <group>
+                                        <field name="pat_weight"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group>
+                                        <field name="pat_bloodType"/>
+                                    </group>
+                                    <group>
+                                        <field name="active"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <field name="pat_allergic"/>
+                                </group>
+                            </page>
+                            <page string="Appointment Records">
+                                <field name="appointment_id"/>
+                            </page>
+                        </notebook>
                     </group>
                 </sheet>
             </form>
@@ -41,12 +114,16 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" string="Patient Name" filter_domain="['|', ('name','ilike',self), ('ref','ilike',self)]"/>
+                <field name="name" string="Patient Name"
+                       filter_domain="['|', ('name','ilike',self), ('ref','ilike',self)]"/>
                 <field name="ref"/>
                 <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
                 <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
                 <separator/>
                 <filter name="filter_kids" string="Kids" domain="[('age', '&lt;=', '14')]"/>
+                <separator/>
+                <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
+
                 <group expand="0" string="Group By">
                     <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}"/>
                 </group>

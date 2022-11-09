@@ -7,9 +7,8 @@
         <field name="arch" type="xml">
             <tree>
                 <field name="ref"/>
-                <field name="date"/>
-                <field name="description"/>
                 <field name="patient_id" string="Patient"/>
+                <field name="date"/>
             </tree>
         </field>
     </record>
@@ -20,18 +19,43 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="complete_appointment"
+                                string="Done" class="oe_button oe_form_button"
+                                icon="fa-check-circle"/>
+                    </div>
                     <group>
                         <group>
                             <field name="ref"/>
-                            <field name="date"/>
+                            <field name="patient_id" string="Patient"/>
+                            <field name="active"/>
                         </group>
                         <group>
+                            <field name="date"/>
                             <field name="description"/>
-                            <field name="patient_id" string="Patient"/>
                         </group>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_appointment_search" model="ir.ui.view">
+        <field name="name">hospital.appointment.search</field>
+        <field name="model">hospital.appointment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref" string="Appointment ID"/>
+                <field name="patient_id" string="Patient"
+                       filter_domain="['|', ('patient_id.name','ilike',self), ('patient_id.ref','ilike',self)]"/>
+                <filter name='filter_today' string="Today"
+                        domain="[('date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
+                <separator/>
+                <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_patient" string="Patient" context="{'group_by':'patient_id'}"/>
+                </group>
+            </search>
         </field>
     </record>
 

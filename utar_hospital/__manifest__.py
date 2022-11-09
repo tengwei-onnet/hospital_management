@@ -11,6 +11,7 @@
     'depends': [],
     'data': [
         'security/ir.model.access.csv', #security file must at first
+        'data/sequence_data.xml',
         'views/menu.xml',
         'views/patient_view.xml',
         'views/appointment_view.xml',
