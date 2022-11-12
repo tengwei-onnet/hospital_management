@@ -35,7 +35,9 @@ class HospitalPatient(models.Model):
                                       ('a1', 'A'), ('a2', 'A+'), ('a3', 'A-'),
                                       ('b1', 'B'), ('b2', 'B+'), ('b3', 'B-'),
                                       ('ab1', 'AB'), ('ab2', 'AB+'), ('ab3', 'AB-')], string='Blood Type')
-    pat_allergic = fields.Text(string='Allergy Description')
+    pat_insurance_name = fields.Char(string='Insurance Name')
+    insurance_attachment_id = fields.Many2many('ir.attachment', string="Attachment")
+    pat_allergic = fields.Html()
     appointment_id = fields.One2many(comodel_name='hospital.appointment', inverse_name='patient_id')
     active = fields.Boolean(string='Active', default=True, readonly=True)
 
@@ -122,6 +124,7 @@ class HospitalAppointment(models.Model):
     ref = fields.Char(string='Appointment ID', store=True, required=True, readonly=True, default=lambda self: _('New'))
     description = fields.Text(string='Description')
     patient_id = fields.Many2one(comodel_name='hospital.patient', string='Patient', store=True)
+    doctor_id = fields.Many2one(comodel_name='hospital.doctor', string='Doctor', store=True)
     active = fields.Boolean(string='Active', default=True, readonly=True)
 
     @api.model

@@ -8,6 +8,7 @@
             <tree>
                 <field name="ref"/>
                 <field name="patient_id" string="Patient"/>
+                <field name="doctor_id" string="Doctor"/>
                 <field name="date"/>
             </tree>
         </field>
@@ -31,6 +32,7 @@
                             <field name="active"/>
                         </group>
                         <group>
+                            <field name="doctor_id" string="Doctor"/>
                             <field name="date"/>
                             <field name="description"/>
                         </group>
@@ -48,12 +50,19 @@
                 <field name="ref" string="Appointment ID"/>
                 <field name="patient_id" string="Patient"
                        filter_domain="['|', ('patient_id.name','ilike',self), ('patient_id.ref','ilike',self)]"/>
+                <field name="doctor_id" string="Doctor"
+                       filter_domain="['|', ('doctor_id.name','ilike',self), ('doctor_id.ref','ilike',self)]"/>
+
                 <filter name='filter_today' string="Today"
                         domain="[('date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
                 <separator/>
                 <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
+
                 <group expand="0" string="Group By">
                     <filter name="group_by_patient" string="Patient" context="{'group_by':'patient_id'}"/>
+                </group>
+                <group expand="0" string="Group By">
+                    <filter name="group_by_doctor" string="Doctor" context="{'group_by':'doctor_id'}"/>
                 </group>
             </search>
         </field>

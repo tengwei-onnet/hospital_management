@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_nurse_tree" model="ir.ui.view">
+        <field name="name">hospital.nurse.tree</field>
+        <field name="model">hospital.nurse</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="name" string="Nurse Name"/>
+                <field name="age"/>
+                <field name="gender"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hospital_nurse_form" model="ir.ui.view">
+        <field name="name">hospital.nurse.form</field>
+        <field name="model">hospital.nurse</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="nurse_ic" required="0"/>
+                            <field name="nurse_DOB" string="Date of Birth"/>
+                            <field name="age"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="gender"/>
+                            <field name="nurse_mobile" placeholder="XXX-XXXXXXX" readonly="0" widget="phone"/>
+                            <field name="nurse_email" widget="email"/>
+                            <field name="nurse_position"/>
+                            <!--                            <field name="is_birthday" invisible="1"/>-->
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="nurse_address"/>
+                            <field name="nurse_address_state"/>
+                        </group>
+                        <group>
+                            <field name="nurse_country"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_nurse_search" model="ir.ui.view">
+        <field name="name">hospital.nurse.search</field>
+        <field name="model">hospital.nurse</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Nurse Name"
+                       filter_domain="['|', ('name','ilike',self), ('ref','ilike',self)]"/>
+                <field name="nurse_position" string="Nurse Position"/>
+                <field name="ref"/>
+                <filter name="filter_male" string="Male" domain="[('gender', '=', 'male')]"/>
+                <filter name="filter_female" string="Female" domain="[('gender', '=', 'female')]"/>
+                <separator/>
+                <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by':'gender'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hospital_nurse" model="ir.actions.act_window">
+        <field name="name">Nurse</field>
+        <field name="res_model">hospital.nurse</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Nurse!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_nurse"
+              name="Nurse"
+              action="action_hospital_nurse"
+              parent="menu_staff_master"
+              sequence="1"/>
+
+
+</odoo>

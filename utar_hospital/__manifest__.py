@@ -10,11 +10,14 @@
     'description': """Hospital Management System""",
     'depends': [],
     'data': [
-        'security/ir.model.access.csv', #security file must at first
+        'security/ir.model.access.csv',  # security file must at first
         'data/sequence_data.xml',
         'views/menu.xml',
         'views/patient_view.xml',
         'views/appointment_view.xml',
+        'views/doctor_view.xml',
+        'views/language_spoken_setting.xml',
+        'views/nurse_view.xml',
     ],
     'demo': [],
     'application': True,

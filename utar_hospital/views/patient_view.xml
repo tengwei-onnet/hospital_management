@@ -77,8 +77,9 @@
                         <notebook>
                             <page string="Extra Information">
                                 <div class="oe_title">
-                                    <h1>Extra Information</h1>
+                                    <h3>Extra Information</h3>
                                 </div>
+                                <group></group>
                                 <group>
                                     <group>
                                         <field name="pat_height"/>
@@ -92,13 +93,31 @@
                                         <field name="pat_bloodType"/>
                                     </group>
                                     <group>
-                                        <field name="active"/>
+                                        <field name="active" invisible="1"/>
                                     </group>
                                 </group>
+                                <group></group>
+                                <div class="oe_title">
+                                    <h3>Allergic Description</h3>
+                                </div>
+                                <group></group>
+                                <field name="pat_allergic" class="oe-bordered-editor field_description"
+                                       placeholder="Description of Allergic..."/>
+
+                            </page>
+                            <page string="Insurance">
+                                <div class="oe_title">
+                                    <h3>Insurance Document</h3>
+                                </div>
+                                <group></group>
                                 <group>
-                                    <field name="pat_allergic"/>
+                                    <field name="pat_insurance_name"/>
+                                </group>
+                                <group>
+                                    <field name="insurance_attachment_id" widget="many2many_binary" class="oe_inline"/>
                                 </group>
                             </page>
+
                             <page string="Appointment Records">
                                 <field name="appointment_id"/>
                             </page>

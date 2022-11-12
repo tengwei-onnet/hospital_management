@@ -18,6 +18,22 @@
             <field name="company_id" eval="False"/>
         </record>
 
+        <record id="seq_doctor" model="ir.sequence">
+            <field name="name">Doctor Sequence</field>
+            <field name="code">hospital.doctor</field>
+            <field name="prefix">DOC</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_nurse" model="ir.sequence">
+            <field name="name">Nurse Sequence</field>
+            <field name="code">hospital.nurse</field>
+            <field name="prefix">NUR</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
     </data>
 
 

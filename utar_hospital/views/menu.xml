@@ -7,11 +7,11 @@
               sequence="0"/>
 
     <menuitem id="menu_patient_master"
-              name="Patients"
+              name="Patient"
               parent="menu_hospital_root"
               sequence="1"/>
 
-    <menuitem id="menu_doctor_master"
+    <menuitem id="menu_staff_master"
               name="Staff"
               parent="menu_hospital_root"
               sequence="2"/>
@@ -22,12 +22,17 @@
               sequence="4"/>
 
     <menuitem id="menu_medical_report_master"
-              name="Medical Reports"
+              name="Medical Report"
               parent="menu_hospital_root"
               sequence="3"/>
 
     <menuitem id="menu_billing_master"
               name="Billing"
+              parent="menu_hospital_root"
+              sequence="5"/>
+
+    <menuitem id="menu_configuration_master"
+              name="Configuration"
               parent="menu_hospital_root"
               sequence="5"/>
 
