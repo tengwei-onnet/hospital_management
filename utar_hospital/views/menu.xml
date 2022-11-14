@@ -16,8 +16,8 @@
               parent="menu_hospital_root"
               sequence="2"/>
 
-    <menuitem id="menu_care_master"
-              name="Care"
+    <menuitem id="menu_room_master"
+              name="Room"
               parent="menu_hospital_root"
               sequence="4"/>
 

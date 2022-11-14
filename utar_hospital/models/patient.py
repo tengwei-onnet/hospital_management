@@ -26,7 +26,7 @@ class HospitalPatient(models.Model):
     gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
     pat_DOB = fields.Date(string='Date Of Birth', store=True)
     pat_height = fields.Integer(string='Height (cm)')
-    pat_weight = fields.Integer(string='Weight (kg)')
+    pat_weight = fields.Float(string='Weight (kg)')
     pat_mobile = fields.Char(string="Phone Number", compute='validate_phone_no', store=True)
     pat_address = fields.Char(string='Address')
     pat_address_state = fields.Char(string='State')

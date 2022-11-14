@@ -4,5 +4,5 @@ access.hospital_appointment,access_hospital_appointment,utar_hospital.model_hosp
 access.hospital_doctor,access_hospital_doctor,utar_hospital.model_hospital_doctor,base.group_user,1,1,1,1
 access.language_spoken,access_language_spoken,utar_hospital.model_language_spoken,base.group_user,1,1,1,1
 access.hospital_nurse,access_hospital_nurse,utar_hospital.model_hospital_nurse,base.group_user,1,1,1,1
-
-
+access.hospital_room,access_hospital_room,utar_hospital.model_hospital_room,base.group_user,1,1,1,1
+access.hospital_ward,access_hospital_ward,utar_hospital.model_hospital_ward,base.group_user,1,1,1,1

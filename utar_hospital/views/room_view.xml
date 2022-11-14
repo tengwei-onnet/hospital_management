@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_room_tree" model="ir.ui.view">
+        <field name="name">hospital.room.tree</field>
+        <field name="model">hospital.room</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="room_type"/>
+                <field name="room_block"/>
+                <field name="room_floor"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hospital_ward_tree" model="ir.ui.view">
+        <field name="name">hospital.ward.tree</field>
+        <field name="model">hospital.ward</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="room_id"/>
+                <field name="ward_price"/>
+                <field name="ward_type"/>
+                <field name="available"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hospital_room_form" model="ir.ui.view">
+        <field name="name">hospital.room.form</field>
+        <field name="model">hospital.room</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="ref"/>
+                            <field name="room_type"/>
+                        </group>
+                        <group>
+                            <field name="room_block"/>
+                            <field name="room_floor"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="ward_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_ward_form" model="ir.ui.view">
+        <field name="name">hospital.ward.form</field>
+        <field name="model">hospital.ward</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="ref"/>
+                            <field name="ward_price"/>
+                            <field name="available"/>
+                        </group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="ward_type"/>
+                            <field name="ward_block"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_room_search" model="ir.ui.view">
+        <field name="name">hospital.room.search</field>
+        <field name="model">hospital.room</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref" string="Room ID"/>
+                <field name="room_type" string="Room Type"/>
+                <field name="room_floor" string="Floor"/>
+
+                <filter name='filter_blockA' string="Block A"
+                        domain="[('room_block', '=', 'blockA')]"/>
+                <filter name='filter_blockB' string="Block B"
+                        domain="[('room_block', '=', 'blockB')]"/>
+                <filter name='filter_blockC' string="Block C"
+                        domain="[('room_block', '=', 'blockC')]"/>
+                <filter name='filter_blockD' string="Block D"
+                        domain="[('room_block', '=', 'blockD')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_block" string="Block" context="{'group_by':'room_block'}"/>
+                    <filter name="group_by_type" string="Type" context="{'group_by':'room_type'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="view_hospital_ward_search" model="ir.ui.view">
+        <field name="name">hospital.ward.search</field>
+        <field name="model">hospital.ward</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref" string="Ward ID"/>
+                <field name="room_id" string="Room ID"/>
+                <field name="ward_type" string="Ward Type"/>
+
+                <filter name='filter_available' string="Available"
+                        domain="[('available', '=', True)]"/>
+                <filter name='filter_not_available' string="Not Available"
+                        domain="[('available', '=', False)]"/>
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_block" string="Block" context="{'group_by':'ward_block'}"/>
+                    <filter name="group_by_type" string="Type" context="{'group_by':'ward_type'}"/>
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_hospital_room" model="ir.actions.act_window">
+        <field name="name">Room</field>
+        <field name="res_model">hospital.room</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Insert your first Room!
+            </p>
+        </field>
+    </record>
+
+    <record id="action_hospital_ward" model="ir.actions.act_window">
+        <field name="name">Ward</field>
+        <field name="res_model">hospital.ward</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Insert your first Ward!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_room"
+              name="Room"
+              action="action_hospital_room"
+              parent="menu_room_master"
+              sequence="0"/>
+
+    <menuitem id="menu_ward"
+              name="Ward"
+              action="action_hospital_ward"
+              parent="menu_room_master"
+              sequence="1"/>
+
+
+</odoo>
