@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_medical_record_tree" model="ir.ui.view">
+        <field name="name">hospital.medical_record.tree</field>
+        <field name="model">hospital.medical_record</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="patient_id"/>
+                <field name="rep_type"/>
+                <field name="doctor_id"/>
+                <field name="rep_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hospital_medical_record_form" model="ir.ui.view">
+        <field name="name">hospital.medical_record.form</field>
+        <field name="model">hospital.medical_record</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="ref"/>
+                            <field name="patient_id"/>
+                        </group>
+                        <group>
+                            <field name="rep_date"/>
+                            <field name="doctor_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="rep_type"/>
+                        <field name="active"/>
+                    </group>
+
+                    <group>
+                        <notebook>
+                            <page string="Treatment">
+                                <group>
+                                    <field name="rep_medicine"/>
+                                </group>
+                                <field name="rep_description" class="oe-bordered-editor field_description"
+                                       placeholder="Description of Treatment..."/>
+                            </page>
+
+                            <page string="Inpatient Details" attrs="{'invisible': [('rep_type', '!=', 'inpatient')]}">
+                                <group>
+                                    <group>
+                                        <field name="rep_checkinDate"/>
+                                        <field name="rep_checkoutDate"/>
+                                    </group>
+                                    <group>
+                                        <field name="rep_anticipated_discharge_date"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_medical_record_search" model="ir.ui.view">
+        <field name="name">hospital.medical_record.search</field>
+        <field name="model">hospital.medical_record</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="ref" string="Medical Record ID"/>
+                <field name="patient_id" string="Patient ID"/>
+                <field name="doctor_id" string="Doctor ID"/>
+                <field name="rep_type" string="Report Type"/>
+
+                <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_hospital_medical_record" model="ir.actions.act_window">
+        <field name="name">Medical Record</field>
+        <field name="res_model">hospital.medical_record</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Insert your first Report!
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_medical_report"
+              name="Medical Report"
+              action="action_hospital_medical_record"
+              parent="menu_medical_report_master"
+              sequence="0"/>
+
+</odoo>

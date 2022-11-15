@@ -37,7 +37,7 @@ class HospitalRoom(models.Model):
     def write(self, vals):
         if not self.ref and not vals.get('ref'):
             vals['ref'] = self.env['ir.sequence'].next_by_code(
-                'hospital.room') + '-' + self.room_block or _('New')
+                'hospital.room') or _('New')
         return super(HospitalRoom, self).write(vals)
 
 

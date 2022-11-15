@@ -19,6 +19,7 @@
         'views/language_spoken_setting.xml',
         'views/nurse_view.xml',
         'views/room_view.xml',
+        'views/medical_record.xml',
     ],
     'demo': [],
     'application': True,

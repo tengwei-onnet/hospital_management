@@ -22,7 +22,7 @@
               sequence="4"/>
 
     <menuitem id="menu_medical_report_master"
-              name="Medical Report"
+              name="Report"
               parent="menu_hospital_root"
               sequence="3"/>
 
