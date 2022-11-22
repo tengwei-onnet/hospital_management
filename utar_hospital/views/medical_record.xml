@@ -32,8 +32,11 @@
                         </group>
                     </group>
                     <group>
-                        <field name="rep_type"/>
-                        <field name="active"/>
+                        <group>
+                            <field name="rep_type"/>
+                            <field name="ward_id"/>
+                            <field name="active"/>
+                        </group>
                     </group>
 
                     <group>
