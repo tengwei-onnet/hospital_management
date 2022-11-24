@@ -19,6 +19,7 @@ class HospitalMedicalRecord(models.Model):
     ref = fields.Char(string='Medical Record ID', store=True, required=True, readonly=True, default=lambda self: _('New'))
     patient_id = fields.Many2one(comodel_name='hospital.patient', string='Patient', store=True, required=True)
     doctor_id = fields.Many2one(comodel_name='hospital.doctor', string='Doctor', store=True, required=True)
+    ward_id = fields.Many2one(comodel_name='hospital.ward', string='Ward', store=True)
 
     rep_type = fields.Selection(
         [('inpatient', 'Inpatient'), ('outpatient', 'Outpatient')], string='Patient Type', default='outpatient')
