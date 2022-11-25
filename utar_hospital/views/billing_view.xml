@@ -118,4 +118,10 @@
             </p>
         </field>
     </record>
+
+    <menuitem id="menu_billing_master"
+              name="Billing"
+              action="action_hospital_billing"
+              parent="menu_hospital_root"
+              sequence="5"/>
 </odoo>

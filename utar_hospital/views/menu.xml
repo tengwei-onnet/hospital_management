@@ -26,12 +26,6 @@
               parent="menu_hospital_root"
               sequence="3"/>
 
-    <menuitem id="menu_billing_master"
-              name="Billing"
-              action="utar_hospital.action_hospital_billing"
-              parent="menu_hospital_root"
-              sequence="5"/>
-
     <menuitem id="menu_configuration_master"
               name="Configuration"
               parent="menu_hospital_root"
