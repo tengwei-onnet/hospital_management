@@ -23,7 +23,7 @@ class HospitalBilling(models.Model):
     medical_charges = fields.Float(string='Medical Fee', default=0, digits=(8, 2))
     test_charges = fields.Float(string='Lab Test Fee', default=0, digits=(8, 2))
     total_amount = fields.Float(string='Total Amount', default=0, digits=(8, 2), readonly='1', compute='calculate_total_price')
-    date_issued = fields.Datetime(string='Date Issued', default=datetime.datetime.now().strftime('%Y-%m-%d 00:00:00'))
+    date_issued = fields.Datetime(string='Date Issued', default=datetime.datetime.now())
     date_paid = fields.Datetime(string='Date Paid', readonly=True)
 
     treatment_price = fields.Float(string='Treatment Fee', default=0, digits=(8, 2), compute='calculate_treatment_price')
