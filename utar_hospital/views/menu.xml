@@ -31,9 +31,14 @@
               parent="menu_hospital_root"
               sequence="5"/>
 
+        <menuitem id="menu_health_info_master"
+              name="Health Information"
+              parent="menu_hospital_root"
+              sequence="6"/>
+
     <menuitem id="menu_configuration_master"
               name="Configuration"
               parent="menu_hospital_root"
-              sequence="5"/>
+              sequence="7"/>
 
 </odoo>

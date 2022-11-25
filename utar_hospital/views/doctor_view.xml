@@ -35,6 +35,7 @@
                         </group>
                         <group>
                             <field name="gender"/>
+                            <field name="doc_maritalStatus"/>
                             <field name="doc_mobile" placeholder="XXX-XXXXXXX" readonly="0" widget="phone"/>
                             <field name="doc_email" widget="email"/>
                         </group>
