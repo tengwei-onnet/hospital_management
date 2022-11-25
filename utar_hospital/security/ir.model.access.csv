@@ -7,3 +7,5 @@ access.hospital_nurse,access_hospital_nurse,utar_hospital.model_hospital_nurse,b
 access.hospital_room,access_hospital_room,utar_hospital.model_hospital_room,base.group_user,1,1,1,1
 access.hospital_ward,access_hospital_ward,utar_hospital.model_hospital_ward,base.group_user,1,1,1,1
 access.hospital_medical_record,access_hospital_medical_record,utar_hospital.model_hospital_medical_record,base.group_user,1,1,1,1
+access.hospital_billing,access_hospital_billing,utar_hospital.model_hospital_billing,base.group_user,1,1,1,1
+

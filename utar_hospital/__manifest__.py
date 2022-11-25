@@ -20,6 +20,7 @@
         'views/nurse_view.xml',
         'views/room_view.xml',
         'views/medical_record.xml',
+        'views/billing_view.xml',
     ],
     'demo': [],
     'application': True,

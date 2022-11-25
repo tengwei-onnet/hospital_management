@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hospital_billing_tree" model="ir.ui.view">
+        <field name="name">hospital.billing.tree</field>
+        <field name="model">hospital.billing</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ref"/>
+                <field name="patient_id"/>
+                <field name="date_issued"/>
+                <field name="total_amount" sum="Total Price"/>
+                <field name="medical_record_id" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_hospital_billing_form" model="ir.ui.view">
+        <field name="name">hospital.billing.form</field>
+        <field name="model">hospital.billing</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_paid"
+                                string="Paid" class="oe_button oe_form_button"
+                                icon="fa-check-square-o"
+                                confirm="Are you sure the patient has paid the bill ?"
+                                attrs="{'invisible': [('active', '==', False)]}"/>
+                        <button type="object" name="action_cancel_bill"
+                                string="Cancel Bill" class="oe_button oe_form_button"
+                                icon="fa-times-circle"/>
+                        <button type="object" name="action_restore_bill"
+                                string="Restore" class="oe_button oe_form_button"
+                                icon="fa-repeat" attrs="{'invisible': [('active', '==', True)]}"/>
+                    </div>
+                    <widget name="web_ribbon" title="Paid" bg_color="bg-danger"
+                            attrs="{'invisible': [('active', '==', True)]}"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="bg-warning"
+                            attrs="{'invisible': [('cancel', '==', False)]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="date_issued" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="date_paid" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="medical_record_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="patient_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="doctor_charges"/>
+                            <field name="nursing_charges"/>
+                        </group>
+                        <group>
+                            <field name="ward_charges"/>
+                            <field name="medical_charges"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="test_charges"/>
+                        <field name="active" invisible="1"/>
+                        <field name="cancel" invisible="1"/>
+                    </group>
+
+                    <group name="note_group" col="6" class="mt-2 mt-md-0">
+                        <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                            <field name="treatment_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="care_price" widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="test_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                            <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                <label for="total_amount"/>
+                            </div>
+                            <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator"
+                                   widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <div class="oe_clear"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_hospital_billing_search" model="ir.ui.view">
+        <field name="name">hospital.billing.search</field>
+        <field name="model">hospital.billing</field>
+        <field name="arch" type="xml">
+            <search>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hospital_billing" model="ir.actions.act_window">
+        <field name="name">Billing</field>
+        <field name="res_model">hospital.billing</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first billing!
+            </p>
+        </field>
+    </record>
+</odoo>
