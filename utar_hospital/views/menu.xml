@@ -26,11 +26,6 @@
               parent="menu_hospital_root"
               sequence="3"/>
 
-    <menuitem id="menu_billing_master"
-              name="Billing"
-              parent="menu_hospital_root"
-              sequence="5"/>
-
     <menuitem id="menu_configuration_master"
               name="Configuration"
               parent="menu_hospital_root"
