@@ -39,7 +39,7 @@
                         </group>
                         <group>
                             <field name="doctor_id"/>
-                            <field name="doctor_phone_no"/>
+                            <field name="doctor_phone_no" invisible="1"/>
                         </group>
                     </group>
                     <group>
