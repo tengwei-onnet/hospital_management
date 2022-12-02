@@ -73,11 +73,12 @@
     </record>
 
 
-    <menuitem id="menu_disease"
+    <menuitem id="menu_disease_master"
               name="Disease"
               action="action_hospital_disease"
-              parent="menu_disease_master"
-              sequence="1"/>
+              parent="menu_hospital_root"
+              sequence="5"/>
+
 
 
 </odoo>
