@@ -23,6 +23,18 @@ class LanguageSpoke(models.Model):
     ]
 
 
+class HospitalDepartment(models.Model):
+    _name = "hospital.department"
+    _description = "Department"
+
+    name = fields.Char(string='Name')
+    block = fields.Char(string='Block')
+    floor = fields.Integer(string='Floor', default=0)
+    doctor_ids = fields.One2many(comodel_name='hospital.doctor', inverse_name='department_id', string='Doctor')
+    HOD = fields.Many2one(comodel_name='hospital.doctor', string='Head of Department',
+                          domain="[('id', 'in', doctor_ids)]")
+
+
 class HospitalDoctor(models.Model):
     _name = "hospital.doctor"
     _description = "Doctor"
@@ -48,7 +60,7 @@ class HospitalDoctor(models.Model):
     doc_type = fields.Selection([('specialist', 'Specialist'), ('consultant', 'Consultant')], string='Doctor Type')
     doc_qualification = fields.Char(string='Qualification')
     doc_position = fields.Char(string='Position')
-    doc_HOD = fields.Char(string='Head of Department')
+    department_id = fields.Many2one(comodel_name='hospital.department', string='Department')
     specialist_type = fields.Char(string='Speciality')
     language_id = fields.Many2many('language.spoken', string='Language Spoken')
     appointment_id = fields.One2many(comodel_name='hospital.appointment', inverse_name='doctor_id')

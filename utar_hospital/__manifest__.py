@@ -23,6 +23,7 @@
         'views/billing_view.xml',
         'views/disease_view.xml',
         'views/meal_view.xml',
+        'views/department_view.xml',
     ],
     'demo': [],
     'application': True,

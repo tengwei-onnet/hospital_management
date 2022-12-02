@@ -65,6 +65,12 @@
                 <filter name='filter_today' string="Today"
                         domain="[('date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
                 <separator/>
+
+                <filter name='filter_tomorrow' string="Tomorrow"
+                        domain="[('date','&gt;=', ((context_today()+datetime.timedelta(days=0)).strftime('%Y-%m-%d 23:59:59'))),
+                        ('date','&lt;=', ((context_today()+datetime.timedelta(days=1)).strftime('%Y-%m-%d 23:59:59')))]"/>
+                <separator/>
+
                 <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
 
                 <group expand="0" string="Group By">
