@@ -20,6 +20,8 @@ class HospitalMedicalRecord(models.Model):
     patient_id = fields.Many2one(comodel_name='hospital.patient', string='Patient', store=True, required=True)
     doctor_id = fields.Many2one(comodel_name='hospital.doctor', string='Doctor', store=True, required=True)
     ward_id = fields.Many2one(comodel_name='hospital.ward', string='Ward', store=True)
+    disease_id = fields.Many2many(comodel_name='hospital.disease', string='Disease', store=True)
+    meal_id = fields.Many2one(comodel_name='hospital.meal', string='Meal', store=True)
 
     rep_type = fields.Selection(
         [('inpatient', 'Inpatient'), ('outpatient', 'Outpatient')], string='Patient Type', default='outpatient')
@@ -30,6 +32,7 @@ class HospitalMedicalRecord(models.Model):
     rep_checkoutDate = fields.Date(string='CheckOut Date')
     rep_checkinDate = fields.Date(string='CheckIn Date')
     active = fields.Boolean(string='Active', default=True, readonly=True)
+    remark = fields.Html()
 
     @api.model
     def create(self, vals):

@@ -4,3 +4,5 @@ from . import nurse
 from . import room
 from . import hospital_report
 from . import billing
+from . import disease
+from . import meal

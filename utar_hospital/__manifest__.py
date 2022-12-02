@@ -8,7 +8,7 @@
     'sequence': -100,
     'summary': 'Management Information System',
     'description': """Hospital Management System""",
-    'depends': [],
+    'depends': ['sale_management'],
     'data': [
         'security/ir.model.access.csv',  # security file must at first
         'data/sequence_data.xml',
@@ -21,6 +21,8 @@
         'views/room_view.xml',
         'views/medical_record.xml',
         'views/billing_view.xml',
+        'views/disease_view.xml',
+        'views/meal_view.xml',
     ],
     'demo': [],
     'application': True,

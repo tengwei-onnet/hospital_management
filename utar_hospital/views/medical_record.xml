@@ -21,21 +21,27 @@
         <field name="arch" type="xml">
             <form>
                 <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="ref"/>
                             <field name="patient_id"/>
+                            <field name="disease_id" widget="many2many_tags"
+                               options="{'color_field': 'color', 'no_create_edit': True}"
+                               placeholder="Diseases..."/>
                         </group>
                         <group>
-                            <field name="rep_date"/>
                             <field name="doctor_id"/>
                         </group>
                     </group>
                     <group>
                         <group>
                             <field name="rep_type"/>
-                            <field name="ward_id"/>
-                            <field name="active"/>
+                            <field name="rep_date"/>
+                            <field name="active" invisible="1"/>
                         </group>
                     </group>
 
@@ -48,7 +54,16 @@
                                 <field name="rep_description" class="oe-bordered-editor field_description"
                                        placeholder="Description of Treatment..."/>
                             </page>
-
+                            <page string="Care">
+                                <group>
+                                    <field name="ward_id"/>
+                                    <field name="meal_id"/>
+                                </group>
+                                <group>
+                                    <field name="remark" class="oe-bordered-editor field_description"
+                                           placeholder="Description of Treatment..."/>
+                                </group>
+                            </page>
                             <page string="Inpatient Details" attrs="{'invisible': [('rep_type', '!=', 'inpatient')]}">
                                 <group>
                                     <group>
