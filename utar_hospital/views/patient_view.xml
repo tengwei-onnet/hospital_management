@@ -59,6 +59,7 @@
                             <field name="gender"/>
                             <field name="pat_mobile" placeholder="XXX-XXXXXXX" readonly="0" widget="phone"/>
                             <field name="pat_email" widget="email"/>
+                            <field name="active" invisible="1"/>
                             <!--                            <field name="is_birthday" invisible="1"/>-->
                         </group>
                     </group>
@@ -83,18 +84,13 @@
                                 <group>
                                     <group>
                                         <field name="pat_height"/>
-                                    </group>
-                                    <group>
                                         <field name="pat_weight"/>
                                     </group>
-                                </group>
-                                <group>
                                     <group>
+                                        <field name="bmi_value"/>
                                         <field name="pat_bloodType"/>
                                     </group>
-                                    <group>
-                                        <field name="active" invisible="1"/>
-                                    </group>
+                                    <field name="bmi_result" attrs="{'invisible': [('bmi_value', '==', 0)]}"/>
                                 </group>
                                 <group></group>
                                 <div class="oe_title">

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
 import re
-from datetime import date
+from datetime import date, timedelta
 
+import pytz
 from dateutil.relativedelta import relativedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
@@ -40,6 +41,37 @@ class HospitalPatient(models.Model):
     pat_allergic = fields.Html()
     appointment_id = fields.One2many(comodel_name='hospital.appointment', inverse_name='patient_id')
     active = fields.Boolean(string='Active', default=True, readonly=True)
+    bmi_value = fields.Float(string='BMI', compute='calculate_bmi', readonly=True)
+    bmi_result = fields.Char(string='BMI Result', compute='determine_bmi', readonly=True)
+
+    @api.depends('bmi_value')
+    def determine_bmi(self):
+        for rec in self:
+            BMI = rec.bmi_value
+
+            if BMI <= 18.4:
+                bmi_result = "Patient is underweight."
+            elif BMI <= 24.9:
+                bmi_result = "Patient is healthy."
+            elif BMI <= 29.9:
+                bmi_result = "Patient is over weight."
+            elif BMI <= 34.9:
+                bmi_result = "Patient is severely over weight."
+            elif BMI <= 39.9:
+                bmi_result = "Patient is obese."
+            else:
+                bmi_result = "Patient is severely obese."
+            rec.bmi_result = bmi_result
+
+    @api.depends('pat_height', 'pat_weight')
+    def calculate_bmi(self):
+        for rec in self:
+            if rec.pat_height != 0:
+                bmi = rec.pat_weight / (rec.pat_height/100)**2
+                rec.bmi_value = bmi
+            else:
+                bmi = 0
+                rec.bmi_value = bmi
 
     @api.model
     def create(self, vals):
@@ -120,12 +152,14 @@ class HospitalAppointment(models.Model):
             res['patient_id'] = self.env.context.get('active_id')
         return res
 
-    date = fields.Datetime(string="Date Appointment")
+    date = fields.Datetime(string="Date Appointment", required=True)
     ref = fields.Char(string='Appointment ID', store=True, required=True, readonly=True, default=lambda self: _('New'))
     description = fields.Text(string='Description')
     patient_id = fields.Many2one(comodel_name='hospital.patient', string='Patient', store=True)
     doctor_id = fields.Many2one(comodel_name='hospital.doctor', string='Doctor', store=True)
     active = fields.Boolean(string='Active', default=True, readonly=True)
+
+    patient_phone_no = fields.Char(string="Phone Number", related='patient_id.pat_mobile', readonly=True)
 
     @api.model
     def create(self, vals):
@@ -152,3 +186,24 @@ class HospitalAppointment(models.Model):
                 }
             }
 
+    def action_send_whatsapp(self):
+        if not self.patient_phone_no:
+            raise ValidationError("Missing phone number in this record")
+
+        new_str = self.patient_id.pat_mobile
+        valid_phone_no = new_str.replace("-", "")
+        dt = self.date
+        dt_plus_12 = dt + timedelta(hours=8)
+
+        msg = "Good Day Sir/Miss, here is _UTAR Hospital_. Your *appointment* is verified. *Please arrive one hours before the appointment time.*" + \
+              "%0aFull Name:%09" + str(self.patient_id.name) + "%0aIC No:%09%09" + str(self.patient_id.pat_ic) + \
+              "%0aPhone No:%09" + str(self.patient_id.pat_mobile) + "%0aEmail:%09%09" + str(self.patient_id.pat_email) + \
+              "%0aDoctor:%09%09" + str(self.doctor_id.name) + "%0aAppointment Date:%09" + str(dt_plus_12)
+
+        whatsapp_url = 'https://api.whatsapp.com/send?phone=+6' + valid_phone_no + '&text=' + msg
+
+        return {
+            'type': 'ir.actions.act_url',
+            'target': 'new',
+            'url': whatsapp_url
+        }

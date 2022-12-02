@@ -19,16 +19,25 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button type="object" name="action_send_whatsapp" string="Notify Patient" class="oe_highlight"
+                            icon="fa-whatsapp"/>
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" name="complete_appointment"
                                 string="Done" class="oe_button oe_form_button"
                                 icon="fa-check-circle"/>
                     </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="ref"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="ref"/>
                             <field name="patient_id" string="Patient"/>
+                            <field name="patient_phone_no"/>
                             <field name="active"/>
                         </group>
                         <group>

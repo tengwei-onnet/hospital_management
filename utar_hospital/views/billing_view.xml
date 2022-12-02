@@ -101,7 +101,7 @@
         <field name="model">hospital.billing</field>
         <field name="arch" type="xml">
             <search>
-
+                <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
             </search>
         </field>
     </record>
