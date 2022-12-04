@@ -71,3 +71,14 @@ class HospitalWard(models.Model):
             vals['ref'] = self.env['ir.sequence'].next_by_code(
                 'hospital.ward') or _('New')
         return super(HospitalWard, self).write(vals)
+
+    @api.model
+    def _name_search(self, name='', args=None, operator='ilike', limit=100, name_get_uid=None):
+        args = list(args or [])
+        if name:
+            args += ['|', ('room_id.ref', operator, name),
+                     ('ref', operator, name)]
+        return self._search(args, limit=limit, access_rights_uid=name_get_uid)
+    
+    def name_get(self):
+        return [(record.id, "%s - %s" % (record.ref, record.room_id.ref)) for record in self]

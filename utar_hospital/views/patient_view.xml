@@ -23,25 +23,11 @@
                     <button type="object" name="schedule_appointment"
                             string="Schedule Appointment" class="oe_highlight"
                             icon="fa-plus"/>
+                    <button type="object" name="create_medical_record"
+                            string="Create Medical Record" class="oe_highlight"
+                            icon="fa-stethoscope"/>
                 </header>
                 <sheet>
-                    <!--                    <div class="oe_button_box" name="button_box">-->
-                    <!--                        <button type="object" name="action_view_record"-->
-                    <!--                                class="oe_stat_button"-->
-                    <!--                                icon="fa-book">-->
-                    <!--                            <field name="count_borrow" widget="statinfo"/>-->
-                    <!--                        </button>-->
-                    <!--                    </div>-->
-                    <!--                    <div class="alert alert-info text-center o_form_header" role="alert"-->
-                    <!--                         attrs="{'invisible': [('is_birthday', '=', False)]}">-->
-                    <!--                        <a class="close" data-dismiss="alert" href="#">x</a>-->
-                    <!--                        <div>-->
-                    <!--                            <strong>Today is-->
-                    <!--                                <field name="name" readonly="1"/>-->
-                    <!--                                Birthday !-->
-                    <!--                            </strong>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                     <div class="oe_title">
                         <h1>
                             <field name="ref"/>
@@ -93,6 +79,10 @@
                                     <field name="bmi_result" attrs="{'invisible': [('bmi_value', '==', 0)]}"/>
                                 </group>
                                 <group></group>
+                                <group>
+                                    <field name="favourite_ward_type"/>
+                                </group>
+                                <group></group>
                                 <div class="oe_title">
                                     <h3>Allergic Description</h3>
                                 </div>
@@ -117,10 +107,24 @@
                             <page string="Appointment Records">
                                 <field name="appointment_id"/>
                             </page>
+                            <page string="Medical Records">
+                                <field name="medical_record_ids"/>
+                            </page>
                         </notebook>
                     </group>
                 </sheet>
             </form>
+        </field>
+    </record>
+
+    <record id="view_onnet_borrow_graph" model="ir.ui.view">
+        <field name="name">hospital.patient.graph</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <graph string="Patient Demographics" type="line" stacked="False">
+                <field name="bmi_value" type="measure"/>
+                <field name="gender"/>
+            </graph>
         </field>
     </record>
 
@@ -150,7 +154,7 @@
         <field name="name">Patient</field>
         <field name="res_model">hospital.patient</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,graph</field>
         <field name="context">{}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

@@ -48,9 +48,6 @@
                         <group>
                             <field name="disease_prevention" class="oe-bordered-editor field_description"
                                        placeholder="Prevention of Disease..."/>
-                            <field name="medicine_id" widget="many2many_tags"
-                                   options="{'color_field': 'color', 'no_create_edit': True}"
-                                   placeholder="Medicines..."/>
                         </group>
                     </group>
                 </sheet>

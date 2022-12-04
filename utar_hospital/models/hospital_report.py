@@ -16,6 +16,13 @@ class HospitalMedicalRecord(models.Model):
     _description = "Hospital Medical Record"
     _rec_name = 'ref'
 
+    @api.model
+    def default_get(self, fields):
+        res = super(HospitalMedicalRecord, self).default_get(fields)
+        if self.env.context.get('active_id'):
+            res['patient_id'] = self.env.context.get('active_id')
+        return res
+
     ref = fields.Char(string='Medical Record ID', store=True, required=True, readonly=True, default=lambda self: _('New'))
     patient_id = fields.Many2one(comodel_name='hospital.patient', string='Patient', store=True, required=True)
     doctor_id = fields.Many2one(comodel_name='hospital.doctor', string='Doctor', store=True, required=True)
@@ -25,10 +32,12 @@ class HospitalMedicalRecord(models.Model):
 
     doctor_phone_no = fields.Char(string="Phone Number", related='doctor_id.doc_mobile', invisible=True)
 
+    ward_type = fields.Selection(related='ward_id.ward_type', string='Ward Type')
+
     rep_type = fields.Selection(
         [('inpatient', 'Inpatient'), ('outpatient', 'Outpatient')], string='Patient Type', default='outpatient')
     rep_date = fields.Date(string='Report Date', tracking=True, default=fields.Date.context_today)
-    rep_medicine = fields.Char(string='Medicine')
+    medicine_id = fields.Many2many(comodel_name='product.product', string='Medicine', store=True)
     rep_description = fields.Html()
     rep_anticipated_discharge_date = fields.Date(string='Date Discharge')
     rep_checkoutDate = fields.Date(string='CheckOut Date')

@@ -23,7 +23,6 @@ class HospitalDisease(models.Model):
     disease_riskfactor = fields.Char(string='Risk Factor')
     disease_complication = fields.Char(string='Complication')
     disease_prevention = fields.Html()
-    medicine_id = fields.Many2many(comodel_name='product.product', string='Recommend Medicine', store=True)
     color = fields.Integer()
 
     @api.model

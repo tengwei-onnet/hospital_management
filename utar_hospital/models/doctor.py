@@ -64,6 +64,9 @@ class HospitalDoctor(models.Model):
     specialist_type = fields.Char(string='Speciality')
     language_id = fields.Many2many('language.spoken', string='Language Spoken')
     appointment_id = fields.One2many(comodel_name='hospital.appointment', inverse_name='doctor_id')
+    task_ids = fields.One2many(comodel_name='hospital.medical_record', inverse_name='doctor_id', readonly=True,
+                               domain=[('active', '=', True)])
+    count_task = fields.Integer(string='Tasks Count', compute='count_doctor_task')
 
     @api.model
     def create(self, vals):
@@ -117,3 +120,19 @@ class HospitalDoctor(models.Model):
             args += ['|', ('name', operator, name),
                      ('ref', operator, name)]
         return self._search(args, limit=limit, access_rights_uid=name_get_uid)
+
+    @api.depends('task_ids')
+    def count_doctor_task(self):
+        for rec in self:
+            rec.count_task = len(self.task_ids)
+
+    def action_view_task(self):
+        return {
+            'name': 'Doctor Task',
+            'res_model': 'hospital.medical_record',
+            'view_mode': 'list,form',
+            'context': {'default_doctor_id': self.id},
+            'domain': ['&', ('doctor_id', '=', self.id), ('active', '=', True)],
+            'target': 'current',
+            'type': 'ir.actions.act_window',
+        }

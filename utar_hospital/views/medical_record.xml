@@ -21,7 +21,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button type="object" name="action_send_whatsapp" string="Notify Patient" class="oe_highlight"
+                    <button type="object" name="action_send_whatsapp" string="Notify Doctor" class="oe_highlight"
                             icon="fa-whatsapp"/>
                 </header>
                 <sheet>
@@ -34,8 +34,8 @@
                         <group>
                             <field name="patient_id"/>
                             <field name="disease_id" widget="many2many_tags"
-                               options="{'color_field': 'color', 'no_create_edit': True}"
-                               placeholder="Diseases..."/>
+                                   options="{'color_field': 'color', 'no_create_edit': True}"
+                                   placeholder="Diseases..."/>
                         </group>
                         <group>
                             <field name="doctor_id"/>
@@ -54,7 +54,9 @@
                         <notebook>
                             <page string="Treatment">
                                 <group>
-                                    <field name="rep_medicine"/>
+                                    <field name="medicine_id" widget="many2many_tags"
+                                           options="{'color_field': 'color', 'no_create_edit': True}"
+                                           placeholder="Medicines..."/>
                                 </group>
                                 <field name="rep_description" class="oe-bordered-editor field_description"
                                        placeholder="Description of Treatment..."/>
@@ -62,6 +64,7 @@
                             <page string="Care">
                                 <group>
                                     <field name="ward_id"/>
+                                    <field name="ward_type"/>
                                     <field name="meal_id"/>
                                 </group>
                                 <group>
@@ -99,7 +102,7 @@
 
                 <filter name="filter_active" string="Archived" domain="[('active', '=', False)]"/>
                 <separator/>
-                 <filter name='filter_today_discharge_date' string="Today (Discharge Date)"
+                <filter name='filter_today_discharge_date' string="Today (Discharge Date)"
                         domain="[('rep_anticipated_discharge_date', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('rep_anticipated_discharge_date', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>
                 <filter name='filter_today_checkout_date' string="Today (Checkout Date)"
                         domain="[('rep_checkoutDate', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d 00:00:00')),('rep_checkoutDate', '&lt;=',datetime.datetime.now().strftime('%Y-%m-%d 23:59:59'))]"/>

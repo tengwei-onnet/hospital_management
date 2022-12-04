@@ -24,7 +24,8 @@ class HospitalPatient(models.Model):
                                          string='Marital Status')
     age = fields.Float(string='Age', compute='_compute_age', inverse='inverse_compute_age', readonly=True, store=True,
                        digits=(3, 0))
-    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender')
+
+    gender = fields.Selection([('male', 'Male'), ('female', 'Female')], string='Gender', store=True)
     pat_DOB = fields.Date(string='Date Of Birth', store=True)
     pat_height = fields.Integer(string='Height (cm)')
     pat_weight = fields.Float(string='Weight (kg)')
@@ -35,14 +36,19 @@ class HospitalPatient(models.Model):
     pat_bloodType = fields.Selection([('o1', 'O'), ('o2', 'O+'), ('o3', 'O-'),
                                       ('a1', 'A'), ('a2', 'A+'), ('a3', 'A-'),
                                       ('b1', 'B'), ('b2', 'B+'), ('b3', 'B-'),
-                                      ('ab1', 'AB'), ('ab2', 'AB+'), ('ab3', 'AB-')], string='Blood Type')
+                                      ('ab1', 'AB'), ('ab2', 'AB+'), ('ab3', 'AB-')], string='Blood Type', store=True)
     pat_insurance_name = fields.Char(string='Insurance Name')
     insurance_attachment_id = fields.Many2many('ir.attachment', string="Attachment")
     pat_allergic = fields.Html()
     appointment_id = fields.One2many(comodel_name='hospital.appointment', inverse_name='patient_id')
     active = fields.Boolean(string='Active', default=True, readonly=True)
-    bmi_value = fields.Float(string='BMI', compute='calculate_bmi', readonly=True)
-    bmi_result = fields.Char(string='BMI Result', compute='determine_bmi', readonly=True)
+    bmi_value = fields.Float(string='BMI', compute='calculate_bmi', readonly=True, store=True)
+    bmi_result = fields.Char(string='BMI Result', compute='determine_bmi', readonly=True, store=True)
+    favourite_ward_type = fields.Selection(
+        [('normal', 'Normal'), ('premier', 'Premier'), ('premier_executive', 'Premier Executive'),
+         ('single_executive', 'Single Executive')], string='Favourite Ward Type', default='normal'
+    )
+    medical_record_ids = fields.One2many(comodel_name='hospital.medical_record', inverse_name='patient_id')
 
     @api.depends('bmi_value')
     def determine_bmi(self):
@@ -50,17 +56,17 @@ class HospitalPatient(models.Model):
             BMI = rec.bmi_value
 
             if BMI <= 18.4:
-                bmi_result = "Patient is underweight."
+                bmi_result = "BMI Result: Patient is underweight."
             elif BMI <= 24.9:
-                bmi_result = "Patient is healthy."
+                bmi_result = "BMI Result: Patient is healthy."
             elif BMI <= 29.9:
-                bmi_result = "Patient is over weight."
+                bmi_result = "BMI Result: Patient is over weight."
             elif BMI <= 34.9:
-                bmi_result = "Patient is severely over weight."
+                bmi_result = "BMI Result: Patient is severely over weight."
             elif BMI <= 39.9:
-                bmi_result = "Patient is obese."
+                bmi_result = "BMI Result: Patient is obese."
             else:
-                bmi_result = "Patient is severely obese."
+                bmi_result = "BMI Result: Patient is severely obese."
             rec.bmi_result = bmi_result
 
     @api.depends('pat_height', 'pat_weight')
@@ -68,10 +74,10 @@ class HospitalPatient(models.Model):
         for rec in self:
             if rec.pat_height != 0:
                 bmi = rec.pat_weight / (rec.pat_height/100)**2
-                rec.bmi_value = bmi
             else:
                 bmi = 0
-                rec.bmi_value = bmi
+
+            rec.bmi_value = bmi
 
     @api.model
     def create(self, vals):
@@ -124,6 +130,17 @@ class HospitalPatient(models.Model):
             'view_type': 'form',
             'view_mode': 'form',
             'view_id': self.env.ref('utar_hospital.view_hospital_appointment_form').id,
+            'target': 'new',
+            'context': {'patient_id': self.id}
+        }
+
+    def create_medical_record(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'hospital.medical_record',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'view_id': self.env.ref('utar_hospital.view_hospital_medical_record_form').id,
             'target': 'new',
             'context': {'patient_id': self.id}
         }
