@@ -9,13 +9,13 @@
                 <field name="ref"/>
                 <field name="patient_id"/>
                 <field name="date_issued"/>
-                <field name="total_amount" sum="Total Price"/>
-                <field name="medical_record_id" optional="hide"/>
                 <field name="bill_status" optional="show"
                        decoration-danger="bill_status == 'cancel'"
                        decoration-success="bill_status == 'paid'"
                        decoration-muted="bill_status == 'draft'"
                        decoration-warning="bill_status == 'pending'" widget="badge"/>
+                <field name="total_amount" sum="Total Price"/>
+                <field name="medical_record_id" optional="hide"/>
             </tree>
         </field>
     </record>
