@@ -8,7 +8,7 @@
             <tree>
                 <field name="ref"/>
                 <field name="name"/>
-                <field name="color" widget="color_picker"/>
+                <field name="color" widget="color_picker" optional="hide"/>
             </tree>
         </field>
     </record>

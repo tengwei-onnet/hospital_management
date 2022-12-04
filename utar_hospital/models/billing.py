@@ -22,11 +22,15 @@ class HospitalBilling(models.Model):
     ward_charges = fields.Float(string='Ward Fee', default=0, digits=(8, 2))
     medical_charges = fields.Float(string='Medical Fee', default=0, digits=(8, 2))
     test_charges = fields.Float(string='Lab Test Fee', default=0, digits=(8, 2))
-    total_amount = fields.Float(string='Total Amount', default=0, digits=(8, 2), readonly='1', compute='calculate_total_price')
+    total_amount = fields.Float(string='Total Amount', default=0, digits=(8, 2), readonly='1',
+                                compute='calculate_total_price')
     date_issued = fields.Datetime(string='Date Issued', default=datetime.datetime.now())
     date_paid = fields.Datetime(string='Date Paid', readonly=True)
+    bill_status = fields.Selection([('draft', 'Draft'), ('pending', 'Pending'), ('paid', 'Paid'),
+                                    ('cancel', 'Cancelled')], default='draft', copy=False, tracking=True)
 
-    treatment_price = fields.Float(string='Treatment Fee', default=0, digits=(8, 2), compute='calculate_treatment_price')
+    treatment_price = fields.Float(string='Treatment Fee', default=0, digits=(8, 2),
+                                   compute='calculate_treatment_price')
     care_price = fields.Float(string='Care Fee', default=0, digits=(8, 2), compute='calculate_care_price')
     test_price = fields.Float(string='Lab Test Fee', default=0, digits=(8, 2), compute='calculate_test_price')
 
@@ -34,7 +38,6 @@ class HospitalBilling(models.Model):
     patient_id = fields.Many2one(related='medical_record_id.patient_id')
 
     active = fields.Boolean(string='Active', default=True, readonly=True)
-    cancel = fields.Boolean(string='Cancelled', default=False, invisible=True)
 
     @api.depends('doctor_charges', 'medical_charges')
     def calculate_treatment_price(self):
@@ -78,6 +81,7 @@ class HospitalBilling(models.Model):
         for rec in self:
             rec.active = False
             rec.date_paid = fields.Datetime.now()
+            rec.bill_status = 'paid'
         return {
             'effect': {
                 'fadeout': 'slow',
@@ -89,9 +93,14 @@ class HospitalBilling(models.Model):
     def action_restore_bill(self):
         for rec in self:
             rec.active = True
-            rec.cancel = False
+            rec.bill_status = 'draft'
 
     def action_cancel_bill(self):
         for rec in self:
             rec.active = False
-            rec.cancel = True
+            rec.bill_status = 'cancel'
+
+    def action_confirm_bill(self):
+        for rec in self:
+            rec.active = False
+            rec.bill_status = 'pending'

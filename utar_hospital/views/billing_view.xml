@@ -11,6 +11,11 @@
                 <field name="date_issued"/>
                 <field name="total_amount" sum="Total Price"/>
                 <field name="medical_record_id" optional="hide"/>
+                <field name="bill_status" optional="show"
+                       decoration-danger="bill_status == 'cancel'"
+                       decoration-success="bill_status == 'paid'"
+                       decoration-muted="bill_status == 'draft'"
+                       decoration-warning="bill_status == 'pending'" widget="badge"/>
             </tree>
         </field>
     </record>
@@ -20,24 +25,34 @@
         <field name="model">hospital.billing</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="bill_status" widget="statusbar" statusbar_visible="draft,pending,paid,cancel"/>
+                </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_confirm_bill"
+                                string="Confirmed" class="oe_button oe_form_button"
+                                icon="fa-check-square" attrs="{'invisible': [('bill_status', '!=', 'draft')]}"/>
                         <button type="object" name="action_paid"
                                 string="Paid" class="oe_button oe_form_button"
-                                icon="fa-check-square-o"
+                                icon="fa-credit-card"
                                 confirm="Are you sure the patient has paid the bill ?"
-                                attrs="{'invisible': [('active', '==', False)]}"/>
+                                attrs="{'invisible': [('bill_status', '!=', 'pending')]}"/>
                         <button type="object" name="action_cancel_bill"
                                 string="Cancel Bill" class="oe_button oe_form_button"
-                                icon="fa-times-circle"/>
+                                icon="fa-times-circle" attrs="{'invisible': [('bill_status', '==', 'cancel')]}"/>
                         <button type="object" name="action_restore_bill"
                                 string="Restore" class="oe_button oe_form_button"
                                 icon="fa-repeat" attrs="{'invisible': [('active', '==', True)]}"/>
                     </div>
-                    <widget name="web_ribbon" title="Paid" bg_color="bg-danger"
-                            attrs="{'invisible': [('active', '==', True)]}"/>
-                    <widget name="web_ribbon" title="Cancelled" bg_color="bg-warning"
-                            attrs="{'invisible': [('cancel', '==', False)]}"/>
+                    <widget name="web_ribbon" title="Draft" bg_color="bg-muted"
+                            attrs="{'invisible': [('bill_status', '!=', 'draft')]}"/>
+                    <widget name="web_ribbon" title="Pending" bg_color="bg-warning"
+                            attrs="{'invisible': [('bill_status', '!=', 'pending')]}"/>
+                    <widget name="web_ribbon" title="Paid" bg_color="bg-success"
+                            attrs="{'invisible': [('bill_status', '!=', 'paid')]}"/>
+                    <widget name="web_ribbon" title="Cancelled" bg_color="bg-danger"
+                            attrs="{'invisible': [('bill_status', '!=', 'cancel')]}"/>
                     <div class="oe_title">
                         <h1>
                             <field name="ref"/>
@@ -73,7 +88,6 @@
                     <group>
                         <field name="test_charges"/>
                         <field name="active" invisible="1"/>
-                        <field name="cancel" invisible="1"/>
                     </group>
 
                     <group name="note_group" col="6" class="mt-2 mt-md-0">
